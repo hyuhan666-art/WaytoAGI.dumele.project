@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>读了吗</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="theme-color" content="#f3eee6" />
+</head>
+
+<body>
+  <div class="bg-layer" aria-hidden="true"></div>
+
+<div id="splash" class="splash" aria-hidden="true">
+  <img class="splash-art" src="./icons/splash.png" alt="" />
+</div>
+  <header class="topbar">
+    <button id="navBack" class="nav-btn" type="button" aria-label="返回">← 返回</button>
+    <div class="nav-title">读了吗</div>
+    <button id="navAction" class="nav-btn" type="button" aria-label="换一换">换一换</button>
+  </header>
+
+  <div class="progress" id="progressDots" aria-hidden="true">
+    <span class="dot" data-step="home"></span>
+    <span class="dot" data-step="agent"></span>
+    <span class="dot" data-step="micro"></span>
+    <span class="dot" data-step="exit"></span>
+  </div>
+
+  <div class="lotus" aria-hidden="true"></div>
+  <div class="sparkle" aria-hidden="true"></div>
+
+  <main class="app" id="appRoot">
+    <section id="home" class="page" data-route="home">
+      <div class="page-body">
+        <p class="kicker">今天有点读不下去吗？</p>
+        <h1 class="page-title">读了吗</h1>
+
+        <label class="field" for="homeInput">
+          <span class="field-label">用户输入</span>
+          <textarea id="homeInput" placeholder="为什么读不下去？"></textarea>
+        </label>
+
+        <button id="homeHelpBtn" class="btn primary" type="button">让读了吗帮我一下</button>
+
+        <p id="homeStatus" class="status" role="status"></p>
+        <p id="homeError" class="error hidden" role="alert"></p>
+
+        <div id="homeResult" class="card result hidden">
+          <p class="meta" id="homeBlocker"></p>
+          <p class="insight" id="homeInsight"></p>
+          <button id="homeAgentBtn" class="btn secondary" type="button"></button>
+          <div id="homeChoices" class="choice-list"></div>
+        </div>
+
+        <p id="homeHint" class="hint"></p>
+      </div>
+    </section>
+
+    <section id="agent" class="page" data-route="agent">
+      <div class="page-body">
+        <h2 class="section-title">智能体 · 凯根</h2>
+        <p class="section-sub">一步一步看清卡点。</p>
+
+        <div id="agentStep1" class="card">
+          <p class="meta">Step 1</p>
+          <p class="question">我先帮你找门槛。</p>
+          <p class="section-sub">你觉得要满足哪些条件，才“值得打开书”？（可多选）</p>
+          <div id="agentStep1Chips" class="options-grid"></div>
+          <button id="agentStep1NextBtn" class="btn primary" type="button">下一步</button>
+        </div>
+
+        <div id="agentStep2" class="card hidden">
+          <p class="meta">Step 2</p>
+          <p class="question">如果现在只读2分钟、允许读不懂也不做笔记——你最担心什么？</p>
+          <div id="agentStep2Chips" class="options-grid"></div>
+          <button id="agentStep2NextBtn" class="btn primary" type="button">生成卡牌</button>
+        </div>
+
+        <section id="agentCards" class="agent-cards hidden">
+          <div class="agent-head">
+            <div class="meta">卡牌翻开</div>
+            <div id="agentCardIndex" class="counter">第 1/4 张</div>
+          </div>
+
+          <div class="card-carousel" id="cardCarousel" aria-label="Kegan cards"></div>
+          <p id="agentReframe" class="reframe"></p>
+
+          <div class="micro-actions" id="microActions" hidden>
+            <button class="micro-btn" data-min="2">🌱 2分钟·无脑读</button>
+            <button class="micro-btn" data-min="5">🌿 5分钟·放松读</button>
+            <button class="micro-btn" data-min="10">🌳 10分钟·稍认真</button>
+          </div>
+
+          <p id="agentSwapHint" class="hint"></p>
+        </section>
+
+        <p id="agentError" class="error hidden" role="alert"></p>
+      </div>
+    </section>
+
+    <section id="micro" class="page" data-route="micro">
+      <div class="page-body">
+        <p class="meta" id="microMode"></p>
+        <h2 class="section-title">开始微阅读</h2>
+
+        <div class="card">
+          <p class="meta">行动指令</p>
+          <p id="microInstruction" class="instruction"></p>
+          <p id="microFallback" class="hint hidden">回到原读书 App，照着做就好。</p>
+        </div>
+
+        <div class="card">
+          <p class="meta">微计时器</p>
+          <div class="timer">
+            <div id="timerDisplay" class="timer-display">00:00</div>
+            <div class="timer-actions">
+              <button id="timerStartBtn" class="btn primary" type="button">开始</button>
+              <button id="timerPauseBtn" class="btn secondary" type="button">暂停</button>
+              <button id="timerResetBtn" class="btn ghost" type="button">重置</button>
+            </div>
+          </div>
+        </div>
+
+        <label class="field">
+          <span class="field-label">粘贴材料（可选）</span>
+          <textarea id="microTextInput" placeholder="贴一小段也可以"></textarea>
+        </label>
+
+        <button id="microExitBtn" class="btn ghost" type="button">我想退出</button>
+      </div>
+    </section>
+
+    <section id="exit" class="page" data-route="exit">
+      <div class="page-body">
+        <h2 class="section-title">先缓冲一下</h2>
+        <p class="section-sub">你想走，是因为？</p>
+
+        <div class="card">
+          <div class="exit-list" id="exitReasonList">
+            <button class="exit-item" data-reason="无聊" type="button">无聊</button>
+            <button class="exit-item" data-reason="累" type="button">累</button>
+            <button class="exit-item" data-reason="难" type="button">难</button>
+          </div>
+          <button id="exitSubmitBtn" class="btn primary" type="button">提交</button>
+          <p id="exitStatus" class="status" role="status"></p>
+          <p id="exitError" class="error hidden" role="alert"></p>
+        </div>
+
+        <div id="exitResult" class="card hidden">
+          <p class="meta">一句点破</p>
+          <p id="exitInsight" class="insight"></p>
+          <div id="exitOptions" class="choice-list"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

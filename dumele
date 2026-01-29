@@ -1,0 +1,9 @@
+dumele/
+├─ index.html        ← 主页面
+├─ style.css         ← 样式
+├─ app.js            ← 逻辑
+├─ manifest.json     ← PWA 配置
+├─ service-worker.js ← 离线支持（先占位）
+└─ icons/
+   ├─ icon-192.png
+   └─ icon-512.png
