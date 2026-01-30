@@ -19,17 +19,12 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background: #f4efe7;
   color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   min-height: 100vh;
   position: relative;
-  background-image:
-    linear-gradient(0deg, rgba(241, 232, 219, 0.82), rgba(241, 232, 219, 0.82)),
-    url("icons/下载.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  background-image: none;
 }
 body::before,
 body::after {
@@ -109,41 +104,19 @@ body::after {
   z-index: 2;
 }
 
-.lotus {
+.bg-lotus {
   position: fixed;
-  right: 8px;
-  bottom: -24px;
-  width: 220px;
-  height: 360px;
-  background-image: url("icons/b92f9e18-4224-4ce8-a268-f92bba8b8569.jpg");
+  right: -20px;
+  bottom: -30px;
+  width: min(42vw, 220px);
+  height: min(72vw, 360px);
+  background-image: url("icons/bg.jpg");
   background-repeat: no-repeat;
   background-size: contain;
-  opacity: 0.32;
+  opacity: 0.35;
   pointer-events: none;
   z-index: 1;
-  filter: drop-shadow(0 16px 30px rgba(30, 26, 22, 0.18));
-}
-
-@media (min-width: 520px) {
-  .lotus {
-    right: 24px;
-    bottom: -20px;
-    width: 260px;
-    height: 420px;
-    opacity: 0.28;
-  }
-}
-
-.sparkle {
-  position: fixed;
-  right: 40px;
-  bottom: 36px;
-  width: 20px;
-  height: 20px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
-  opacity: 0.7;
-  pointer-events: none;
-  z-index: 1;
+  filter: grayscale(10%);
 }
 
 .page {
@@ -584,56 +557,115 @@ textarea:focus {
     padding-right: 22px;
   }
 }
-/* ====== Background Layer (optional) ====== */
-.bg-layer{
+/* ====== Background Layer ====== */
+.bg-layer {
   position: fixed;
   inset: 0;
-  z-index: -2;
-  background: url("./icons/bg.jpg") center/cover no-repeat;
-  opacity: 0.35; /* 你可以调 0.2~0.6 */
-  filter: saturate(1.05) contrast(1.03);
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.32), transparent 58%),
+    radial-gradient(circle at 80% 30%, rgba(230, 220, 210, 0.35), transparent 60%),
+    linear-gradient(180deg, #f6f0e7 0%, #f2e9dd 100%);
 }
 
-/* 如果你暂时没有 bg.jpg，就先注释上面那行 background，或直接把 opacity=0 */
+.bg-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.012) 0,
+    rgba(0, 0, 0, 0.012) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.22;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .bg-layer{ filter: none; }
+  .bg-layer::before { opacity: 0.1; }
 }
 
 /* ====== Splash ====== */
-.splash{
+.splash {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  display: grid;
-  place-items: center;
-  background: rgba(247, 242, 233, 0.92); /* 暖米白遮罩，和你产品气质一致 */
-  backdrop-filter: blur(8px);
-  transition: opacity 520ms ease, transform 520ms ease;
+  background: #050505;
+  transition: opacity 360ms ease, transform 360ms ease;
   opacity: 1;
   transform: translateY(0);
+  overflow: hidden;
 }
 
-.splash.is-out{
+.splash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.04), transparent 55%),
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.02), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.02));
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.splash.is-out {
   opacity: 0;
   transform: translateY(-6px);
   pointer-events: none;
 }
 
-.splash-art{
-  width: min(92vw, 780px);
-  height: auto;
-  transform-origin: 50% 50%;
-  animation: splashSpin 1100ms ease-in-out infinite alternate;
-  filter: saturate(1.05) contrast(1.03);
+#splashFx {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-/* 动感来自：轻微旋转 + 缩放 + 亮度变化（像“呼吸”） */
-@keyframes splashSpin{
-  0%   { transform: scale(0.98) rotate(-2deg); opacity: 0.88; }
-  100% { transform: scale(1.03) rotate(2deg);  opacity: 1; }
+.splash-ui {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 2;
+  pointer-events: none;
 }
 
-/* 用户系统设置“减少动态”时，禁用动画 */
+.splash-hint {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.08em;
+}
+
+.enter-btn {
+  width: min(88vw, 520px);
+  height: 64px;
+  border-radius: 18px;
+  border: 1px solid #1e1e1e;
+  background: #0f0f10;
+  color: #f6f2eb;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+  transition: transform 120ms ease, background 180ms ease, border-color 180ms ease;
+  pointer-events: auto;
+}
+
+.enter-btn:active {
+  transform: scale(0.98);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .splash-art{ animation: none; }
+  .splash {
+    transition: opacity 220ms ease;
+  }
 }

@@ -13,10 +13,16 @@
 
 <body>
   <div class="bg-layer" aria-hidden="true"></div>
+  <div class="bg-lotus" aria-hidden="true"></div>
 
-<div id="splash" class="splash" aria-hidden="true">
-  <img class="splash-art" src="./icons/splash.png" alt="" />
-</div>
+  <div id="splash" class="splash" aria-hidden="true">
+    <canvas id="splashFx"></canvas>
+    <div class="splash-ui">
+      <p class="splash-hint">点一下进入</p>
+      <button id="enterBtn" class="enter-btn" type="button">进入读了吗</button>
+    </div>
+  </div>
+
   <header class="topbar">
     <button id="navBack" class="nav-btn" type="button" aria-label="返回">← 返回</button>
     <div class="nav-title">读了吗</div>
@@ -29,9 +35,6 @@
     <span class="dot" data-step="micro"></span>
     <span class="dot" data-step="exit"></span>
   </div>
-
-  <div class="lotus" aria-hidden="true"></div>
-  <div class="sparkle" aria-hidden="true"></div>
 
   <main class="app" id="appRoot">
     <section id="home" class="page" data-route="home">
@@ -159,6 +162,7 @@
     </section>
   </main>
 
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
+
 </body>
 </html>

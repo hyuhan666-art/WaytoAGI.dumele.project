@@ -1,15 +1,28 @@
-﻿window.addEventListener("load", () => {
+﻿import { startSplashFx } from "./splashfx.js";
+
+window.addEventListener("load", () => {
   const splash = document.getElementById("splash");
-  if (!splash) return;
+  const canvas = document.getElementById("splashFx");
+  const enterBtn = document.getElementById("enterBtn");
+  if (!splash || !canvas || !enterBtn) return;
 
-  // 你可以调这个时间：700~1400ms
-  const SHOW_MS = 900;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fx = startSplashFx(canvas, {
+    infinite: true,
+    fadeInMs: 0,
+    reduceMotion,
+  });
 
-  setTimeout(() => {
+  const closeSplash = () => {
+    fx.stop();
     splash.classList.add("is-out");
-    // 动画结束后移除节点，避免挡住点击
-    setTimeout(() => splash.remove(), 650);
-  }, SHOW_MS);
+    setTimeout(() => {
+      splash.remove();
+      window.location.hash = "#home";
+    }, 420);
+  };
+
+  enterBtn.addEventListener("click", closeSplash, { once: true });
 });
 const state = {
   userText: "",
