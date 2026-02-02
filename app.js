@@ -293,8 +293,13 @@ function buildExitPrompt(text, reason) {
   return `${systemPrompts.exit}${text}\n原因：${reason}`;
 }
 
+const API_BASE = (window.__CONFIG__ && window.__CONFIG__.API_BASE_URL)
+  ? String(window.__CONFIG__.API_BASE_URL).replace(/\/$/, "")
+  : "";
+const AGENT_URL = API_BASE ? `${API_BASE}/api/agent` : "/api/agent";
+
 async function callAgent(promptText) {
-  const response = await fetch("/api/agent", {
+  const response = await fetch(AGENT_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
