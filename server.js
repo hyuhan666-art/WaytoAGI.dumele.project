@@ -425,7 +425,9 @@ async function handleSuggest(req, res) {
   logLine(`Suggest payload length=${text.length}.`);
 
   const systemPrompt =
-    "You are a reading companion. Given the user's input, provide three short reading suggestions.";
+    typeof payload.system === "string" && payload.system.trim()
+      ? payload.system.trim()
+      : "";
 
   let openaiResponse;
   const controller = new AbortController();
@@ -442,11 +444,13 @@ async function handleSuggest(req, res) {
       signal: controller.signal,
       body: JSON.stringify({
         model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: text },
-        ],
-        max_tokens: 150,
+        messages: systemPrompt
+          ? [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: text },
+            ]
+          : [{ role: "user", content: text }],
+        max_tokens: 800,
         temperature: 0.7,
       }),
     });
