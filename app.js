@@ -296,7 +296,7 @@ function buildExitPrompt(text, reason) {
 const API_BASE = (window.__CONFIG__ && window.__CONFIG__.API_BASE_URL)
   ? String(window.__CONFIG__.API_BASE_URL).replace(/\/$/, "")
   : "";
-const AGENT_URL = API_BASE ? `${API_BASE}/api/agent` : "/api/agent";
+const AGENT_URL = API_BASE ? `${API_BASE}/api/suggest` : "/api/suggest";
 
 async function callAgent(promptText) {
   const response = await fetch(AGENT_URL, {
